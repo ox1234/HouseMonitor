@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"houseMonitor/log"
 	"houseMonitor/notify"
@@ -11,7 +12,22 @@ import (
 )
 
 func main() {
-	lk := notify.NewLarkNotify("cli_a2649b64eb79900e", "WDDkcui55FJgrF6TL1yfQhVpL2vS1KgT", "北京租房监控")
+	var appID string
+	var appSecret string
+	var chatName string
+
+	flag.StringVar(&appID, "a", "", "app id")
+	flag.StringVar(&appSecret, "s", "", "app secret")
+	flag.StringVar(&chatName, "c", "", "chat name")
+
+	flag.Parse()
+
+	if appID == "" || appSecret == "" || chatName == "" {
+		flag.Usage()
+		return
+	}
+
+	lk := notify.NewLarkNotify(appID, appSecret, chatName)
 	douban := douban2.NewDouBanCollector()
 
 	for range time.Tick(time.Second * 30) {
