@@ -9,7 +9,7 @@ var HouseTemplate = `
     {
       "tag": "div",
       "text": {
-        "content": "🏡%s",
+        "content": "%s",
         "tag": "lark_md"
       }
     }
