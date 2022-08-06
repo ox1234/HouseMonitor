@@ -30,7 +30,7 @@ func main() {
 	lk := notify.NewLarkNotify(appID, appSecret, chatName)
 	douban := douban2.NewDouBanCollector()
 
-	for range time.Tick(time.Second * 30) {
+	for range time.Tick(time.Minute * 10) {
 		newItems, err := douban.Visit("https://www.douban.com/group/zhufang/discussion?start=0&type=new")
 		if err != nil {
 			log.Error("get house info fail: %s", err)
