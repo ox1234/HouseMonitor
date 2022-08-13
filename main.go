@@ -54,7 +54,7 @@ func main() {
 	}()
 
 	log.Info("start house monitor....")
-	for range time.Tick(time.Minute * 10) {
+	for range time.Tick(time.Second * 1) {
 		newItems, err := douban.Visit("https://www.douban.com/group/zhufang/discussion?start=0&type=new")
 		if err != nil {
 			log.Error("get house info fail: %s", err)
@@ -65,10 +65,8 @@ func main() {
 		if len(newItems) > 0 {
 			var msgs []string
 			for _, item := range newItems {
-				for _, banWord := range banWords {
-					if strings.Contains(item.Description, banWord) {
-						continue
-					}
+				if isBanWord(item.Description, banWords) {
+					continue
 				}
 				msgs = append(msgs, item.String())
 			}
@@ -80,7 +78,15 @@ func main() {
 			}
 		}
 	}
+}
 
+func isBanWord(desc string, banList []string) bool {
+	for _, ban := range banList {
+		if strings.Contains(desc, ban) {
+			return true
+		}
+	}
+	return false
 }
 
 func getBanList(u string) ([]string, error) {
