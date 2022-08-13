@@ -93,10 +93,10 @@ func getBanList(u string) ([]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("get body fail: %w", err)
 	}
-	var banList []string
+	var banList map[string][]string
 	err = json.Unmarshal(b, &banList)
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal body fail: %w", err)
 	}
-	return banList, nil
+	return banList["ban_words"], nil
 }
